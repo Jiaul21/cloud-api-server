@@ -1,41 +1,37 @@
 package com.jiaul.cloudapi.service;
 
-import com.jiaul.cloudapi.dto.LoginRequest;
-import com.jiaul.cloudapi.dto.RegistrationRequest;
 import com.jiaul.cloudapi.entity.UserInfo;
 import com.jiaul.cloudapi.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserInfoService {
+public class UserInfoService implements UserDetailsService {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    public UserInfo saveUser(RegistrationRequest registrationRequest){
-        UserInfo userInfo=new UserInfo();
-        userInfo.setUserName(registrationRequest.getUserName());
-        userInfo.setEmail(registrationRequest.getEmail());
-        userInfo.setPassword(registrationRequest.getPassword());
-        return userInfoRepository.save(userInfo);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userInfoRepository.findByEmail(username);
     }
 
-    public UserInfo loginUser(LoginRequest loginRequest){
-        UserInfo userInfo=getUserByEmail(loginRequest.getEmail());
-        if(loginRequest.getPassword().equals(userInfo.getPassword())){
-            return userInfo;
-        }
-        return null;
+    public UserInfo saveUserInfo(UserInfo userInfo){
+        return userInfoRepository.save(userInfo);
     }
 
     public Optional<UserInfo> getUserById(int id){
         return userInfoRepository.findById(id);
     }
 
-    public UserInfo getUserByEmail(String email){
+    public UserInfo getUserInfoByEmail(String email){
         return userInfoRepository.findByEmail(email);
     }
+
+
 }

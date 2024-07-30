@@ -1,7 +1,5 @@
 package com.jiaul.cloudapi.controller;
 
-import com.jiaul.cloudapi.dto.LoginRequest;
-import com.jiaul.cloudapi.dto.RegistrationRequest;
 import com.jiaul.cloudapi.entity.UserInfo;
 import com.jiaul.cloudapi.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +15,6 @@ public class UserInfoController {
     @Autowired
     private UserInfoService userInfoService;
 
-    @PostMapping("/registration")
-    public UserInfo registrationUser(@RequestBody RegistrationRequest registrationRequest){
-        System.out.println(registrationRequest);
-        return userInfoService.saveUser(registrationRequest);
-    }
-    @PostMapping("/login")
-    public UserInfo loginUser(@RequestBody LoginRequest loginRequest){
-        System.out.println(loginRequest);
-        return userInfoService.loginUser(loginRequest);
-    }
-
     @GetMapping("/get-id/{id}")
     public Optional<UserInfo> getUserById(@PathVariable int id){
         return userInfoService.getUserById(id);
@@ -36,6 +23,6 @@ public class UserInfoController {
     @GetMapping("/get-email/{email}")
     public UserInfo getUserByEmail(@PathVariable String email){
         System.out.println(email);
-        return userInfoService.getUserByEmail(email);
+        return userInfoService.getUserInfoByEmail(email);
     }
 }

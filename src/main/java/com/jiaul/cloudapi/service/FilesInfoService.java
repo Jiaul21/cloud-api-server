@@ -19,16 +19,17 @@ public class FilesInfoService {
     }
 
     public List<FilesInfo> getAllFileInfo(){
-        List<FilesInfo> images= new ArrayList<>();
+        List<FilesInfo> files= new ArrayList<>();
 
-        List<FilesInfo> info= filesInfoRepository.findAll();
-        info.forEach(filesInfo -> {
-            if(filesInfo.getFileType().equals("image")){
-                System.out.println(filesInfo.getUrl());
-                images.add(filesInfo);
-            }
+        filesInfoRepository.findAll().forEach(file -> {
+            FilesInfo newFile=new FilesInfo();
+            newFile.setId(file.getId());
+            newFile.setFileName(file.getFileName());
+            newFile.setFileType(file.getFileType());
+            newFile.setUrl(file.getUrl());
 
+            files.add(newFile);
         });
-        return images;
+        return files;
     }
 }

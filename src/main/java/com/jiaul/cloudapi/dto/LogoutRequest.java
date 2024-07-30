@@ -3,7 +3,8 @@ package com.jiaul.cloudapi.dto;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class LogoutRequest {
+
     private String email;
-    private String password;
+    private String tokenValue;
 }
